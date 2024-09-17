@@ -8,25 +8,30 @@ export const refreshTokensController = async (req: Request, res: Response) => {
     const deviceId = req.cookies.deviceId
 
     if (!refreshToken || !deviceId) {
-        return res.status(401).send()
+        res.status(401).send()
+        return
     }
 
     const verifiedToken = jwtService.verifyRefreshToken(refreshToken)
     if (!verifiedToken) {
-        return res.status(401).send()
+        res.status(401).send()
+        return
     }
     
     const iat = verifiedToken!.iat
     if (!iat) {
-        return res.status(401).send()
+        res.status(401).send()
+        return
     }
     const isSessionExist = await authRepository.getUserSession(deviceId, new Date(iat * 1000).toISOString())
     if (!isSessionExist) {
-        return res.status(401).send()
+        res.status(401).send()
+        return
     }
     
     if (!verifiedToken?.userId) {
-        return res.status(401).send()
+        res.status(401).send()
+        return
     }
     const userId = verifiedToken.userId
     
