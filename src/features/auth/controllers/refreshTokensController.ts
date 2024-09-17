@@ -29,7 +29,7 @@ export const refreshTokensController = async (req: Request, res: Response) => {
         return
     }
     
-    if (!verifiedToken?.userId) {
+    if (!verifiedToken.userId) {
         res.status(401).send()
         return
     }

@@ -10,16 +10,12 @@ export const logoutController = async (req: Request, res: Response) => {
         res.status(401).send()
         return
     }
-    if(jwtService.verifyRefreshToken(refreshToken)) {
+    if(!jwtService.verifyRefreshToken(refreshToken)) {
         res.status(401).send()
         return
     }
     const deviceId = req.cookies.deviceId
     await securityRepository.deleteDeviceById(deviceId)
-
-    
-
-    // await authService.addToExpiredTokens(req.cookies.refreshToken)
 
     res.clearCookie('refreshToken').status(204).send();
     return

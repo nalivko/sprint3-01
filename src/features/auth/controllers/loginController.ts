@@ -6,19 +6,22 @@ import { randomUUID } from "crypto"
 import { authRepository } from "../repositories/auth-repo"
 
 export const loginController = async (req: Request<{}, {}, loginInputType>, res: Response/*<loginSuccessType>*/) => {
+    const password = req.body.password;
+    const login = req.body.loginOrEmail;
+    const userId = await authService.checkCredentials(login, password);
 
-    const accessToken = await authService.login(req.body.loginOrEmail, req.body.password)
+    if (!userId) {
+        res.sendStatus(401);
 
-    if (!accessToken) {
-        res.sendStatus(401)
-        return
+        return;
     }
-    const verifiedAccessToken = jwtService.verifyAccessToken(accessToken)
 
-    const userId = verifiedAccessToken!.user.userId
+    const accessToken = await jwtService.createAccessToken(userId);
+
     const deviceId = randomUUID()
 
     const refreshToken = await jwtService.createRefreshToken(userId, deviceId)
+    
     const verifiedRefreshToken = jwtService.verifyRefreshToken(refreshToken)
     if (!verifiedRefreshToken) {
         res.sendStatus(401)

@@ -104,13 +104,13 @@ export const authService = {
         }
     },
 
-    async login(loginOrEmail: string, password: string): Promise<string | null> {
-        const user = await this.checkCredentials(loginOrEmail, password)
+    // async login(loginOrEmail: string, password: string): Promise<string | null> {
+    //     const userId = await this.checkCredentials(loginOrEmail, password)
 
-        if (!user) return null
+    //     if (!userId) return null
 
-        return await jwtService.createAccessToken(user._id.toString())
-    },
+    //     return await jwtService.createAccessToken(userId)
+    // },
 
     async generateNewAccessToken(refreshToken: string, userId: string): Promise<string | null> {
         try {
@@ -132,8 +132,8 @@ export const authService = {
     //     return await jwtService.createRefreshToken(userId)
     // },
 
-    async checkCredentials(loginOrEmail: string, password: string): Promise<WithId<UserDbType> | null> {
-        const user: WithId<UserDbType> | null = await usersRepository.findUserByLoginOrEmail(loginOrEmail)
+    async checkCredentials(loginOrEmail: string, password: string): Promise<string | null> {
+        const user = await usersRepository.findUserByLoginOrEmail(loginOrEmail)
 
         if (!user) return null
 
@@ -141,7 +141,7 @@ export const authService = {
 
         if (!isCorrect) return null
 
-        return user
+        return user._id.toString();
     },
 
     async resendConfirmationCode(email: string): Promise<Result<null>> {

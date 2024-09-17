@@ -3,11 +3,13 @@ import { authSessionsCollection } from "../../../db/mongodb"
 
 export const securityRepository = {
     async getDeviceById(id: string) {
-        return await authSessionsCollection.findOne({_id: new ObjectId(id)})
+        return await authSessionsCollection.findOne({deviceId: id})
     },
 
     async deleteDeviceById(id: string): Promise<boolean> {
-        const result = await authSessionsCollection.deleteOne({_id: new ObjectId(id)})
+        console.log('id', id);
+        
+        const result = await authSessionsCollection.deleteOne({deviceId: id})
 
         return result.deletedCount === 1
     },
