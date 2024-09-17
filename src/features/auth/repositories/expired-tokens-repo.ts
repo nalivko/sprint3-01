@@ -1,17 +1,17 @@
-import { ExpiredTokenDbType } from "../../../db/expired-token-db-type"
-import { expiredTokensCollection } from "../../../db/mongodb"
+// import { ExpiredTokenDbType } from "../../../db/auth-session-db-type"
+// import { expiredTokensCollection } from "../../../db/mongodb"
 
-export const expiredTokensRepository = {
-    async addToken(token: ExpiredTokenDbType): Promise<boolean> {
+// export const expiredTokensRepository = {
+//     async addToken(token: ExpiredTokenDbType): Promise<boolean> {
 
-        await expiredTokensCollection.insertOne(token)
+//         await expiredTokensCollection.insertOne(token)
 
-        return true
-    },
+//         return true
+//     },
 
-    async isTokenExpired(token: string): Promise<boolean> {
-        const expToken = await expiredTokensCollection.findOne({token})
+//     async isTokenExpired(token: string): Promise<boolean> {
+//         const expToken = await expiredTokensCollection.findOne({token})
         
-        return expToken ? true : false
-    }
-}
+//         return expToken ? true : false
+//     }
+// }

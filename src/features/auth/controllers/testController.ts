@@ -11,7 +11,7 @@ export const testController = (req: Request, res: Response) => {
     }
 
     const token = req.headers.authorization.split(' ')[1]
-    const userId = jwtService.getUserIdByToken(token)
+    const userId = jwtService.verifyAccessToken(token)
     try {
         const result = jwt.verify(token, SETTINGS.AC_SECRET)
         res.send(result)

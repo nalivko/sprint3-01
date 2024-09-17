@@ -9,7 +9,12 @@ export const authJWTMiddleware = async (req: Request<{}, {}, {}>, res: Response,
     }
 
     const token = req.headers.authorization.split(' ')[1]
-    const userId = jwtService.getUserIdByToken(token)
+    const verifiedAccessToken = jwtService.verifyAccessToken(token)
+    if(!verifiedAccessToken) {
+        res.send(401)
+        return
+    }
+    const userId = verifiedAccessToken.user.userId
     const user = await usersRepository.getUserById(userId!)
 
     if (!user) {
@@ -18,7 +23,7 @@ export const authJWTMiddleware = async (req: Request<{}, {}, {}>, res: Response,
     }
 
     req.user = {
-        userId: userId!,
+        userId: userId,
         login: user.login
     }
 

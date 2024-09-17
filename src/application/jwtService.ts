@@ -2,7 +2,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 import { SETTINGS } from '../settings'
 
 export const jwtService = {
-    async createToken(userId: string): Promise<string> {
+    async createAccessToken(userId: string): Promise<string> {
         return jwt.sign(
             {
                 user: {
@@ -17,9 +17,9 @@ export const jwtService = {
         )
     },
 
-    async createRefreshToken(userId: string): Promise<string> {
+    async createRefreshToken(userId: string, deviceId: string): Promise<string> {
         return jwt.sign(
-            {userId},
+            {userId, deviceId},
             SETTINGS.REFRESH_SECRET,
             {
                 expiresIn: SETTINGS.REFRESH_TIME
@@ -27,21 +27,21 @@ export const jwtService = {
         )
     },
 
-    getUserIdByToken(token: string): string | null {
+    verifyAccessToken(token: string): JwtPayload | null {
         try {
             const result = jwt.verify(token, SETTINGS.AC_SECRET) as JwtPayload
 
-            return result.user.userId
+            return result
         } catch (error) {
             return null
         }
     },
 
-    async verifyRefreshToken(refreshToken: string) {
+    verifyRefreshToken(refreshToken: string): JwtPayload | null {
         try {
             const result = jwt.verify(refreshToken, SETTINGS.REFRESH_SECRET) as JwtPayload
 
-            return result.userId
+            return result
         } catch (error) {
             return null
         }

@@ -8,7 +8,7 @@ import { UserDbType } from "../../../db/user-db-type"
 import { emailManager } from "../../../managers/email-manager"
 import { Result } from "../../../types/resultType"
 import { usersRepository } from "../../users/usersRepository"
-import { expiredTokensRepository } from '../repositories/expired-tokens-repo'
+// import { expiredTokensRepository } from '../repositories/expired-tokens-repo'
 
 export const authService = {
     async registerUser(login: string, email: string, password: string): Promise<Result<UserDbType | null>> {
@@ -109,28 +109,28 @@ export const authService = {
 
         if (!user) return null
 
-        return await jwtService.createToken(user._id.toString())
+        return await jwtService.createAccessToken(user._id.toString())
     },
 
     async generateNewAccessToken(refreshToken: string, userId: string): Promise<string | null> {
         try {
             await jwtService.verifyRefreshToken(refreshToken)
             
-            if (await expiredTokensRepository.isTokenExpired(refreshToken)) {
-                return null
-            }
+            // if (await expiredTokensRepository.isTokenExpired(refreshToken)) {
+            //     return null
+            // }
         } catch(err) {
             return null
         }
-        return await jwtService.createToken(userId)
+        return await jwtService.createAccessToken(userId)
     },
 
-    async generateRefreshToken(userId: string, oldToken: string | null = null) {
-        if (oldToken) {
-            await this.addToExpiredTokens(oldToken)
-        }
-        return await jwtService.createRefreshToken(userId)
-    },
+    // async generateRefreshToken(userId: string, oldToken: string | null = null) {
+    //     if (oldToken) {
+    //         await this.addToExpiredTokens(oldToken)
+    //     }
+    //     return await jwtService.createRefreshToken(userId)
+    // },
 
     async checkCredentials(loginOrEmail: string, password: string): Promise<WithId<UserDbType> | null> {
         const user: WithId<UserDbType> | null = await usersRepository.findUserByLoginOrEmail(loginOrEmail)
@@ -183,22 +183,21 @@ export const authService = {
         }
     },
 
-    async addToExpiredTokens(refreshToken: string) {
-        expiredTokensRepository.addToken({token: refreshToken})
-    },
+    // async addToExpiredTokens(refreshToken: string) {
+    //     expiredTokensRepository.addToken({token: refreshToken})
+    // },
 
-    async verifyRefreshToken(refreshToken: string): Promise<boolean | null> {
-        try {
-            const userId = await jwtService.verifyRefreshToken(refreshToken)
+    // async verifyRefreshToken(refreshToken: string): Promise<boolean | null> {
+    //     try {
+    //         const verifiedToken = await jwtService.verifyRefreshToken(refreshToken)
             
-            if (await expiredTokensRepository.isTokenExpired(refreshToken)) {
-                return false
-            }
-            console.log(userId);
+    //         if (await expiredTokensRepository.isTokenExpired(refreshToken)) {
+    //             return false
+    //         }
 
-            return userId
-        } catch(err) {
-            return false
-        }
-    }
+    //         return verifiedToken?.userId
+    //     } catch(err) {
+    //         return false
+    //     }
+    // }
 }

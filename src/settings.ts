@@ -10,6 +10,7 @@ export const SETTINGS = {
         USERS: '/users',
         COMMENTS: '/comments',
         AUTH: '/auth',
+        SECURITY: '/security',
         TESTS: '/testing',
     },
     ADMIN_AUTH: process.env.ADMIN_AUTH || 'admin:qwerty',
@@ -21,10 +22,10 @@ export const SETTINGS = {
         POST_COLLECTION_NAME: "posts",
         USER_COLLECTION_NAME: "users",
         COMMENT_COLLECTION_NAME: "comments",
-        EXPIRED_TOKENS_COLLECTION_NAME: "expiredTokens"
+        AUTH_SESSION_COLLECTION_NAME: "authSessions"
     },
     AC_SECRET: 'secretkey',
     REFRESH_SECRET: 'refreshsecretkey',
-    AC_TIME: '10s',
-    REFRESH_TIME: '20s'
+    AC_TIME: '50s',
+    REFRESH_TIME: '120s'
 }

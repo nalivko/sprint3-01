@@ -5,7 +5,7 @@ import { PostDbType } from "./post-db-type";
 import { UserDbType } from "./user-db-type";
 import { CommentDbType } from "./comment-db-type";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { ExpiredTokenDbType } from "./expired-token-db-type";
+import { AuthSessionDbType } from "./auth-session-db-type";
 
 
 // const client: MongoClient = new MongoClient(SETTINGS.MONGO_DB.MONGO_URI)
@@ -20,7 +20,7 @@ export let blogsCollection: Collection<BlogDbType>
 export let postsCollection: Collection<PostDbType>
 export let usersCollection: Collection<UserDbType>
 export let commentsCollection: Collection<CommentDbType>
-export let expiredTokensCollection: Collection<ExpiredTokenDbType>
+export let authSessionsCollection: Collection<AuthSessionDbType>
 
 export async function runDb(mongoMemoryServer = false) {
     if (mongoMemoryServer) {
@@ -38,7 +38,7 @@ export async function runDb(mongoMemoryServer = false) {
     postsCollection = db.collection(SETTINGS.MONGO_DB.POST_COLLECTION_NAME)
     usersCollection = db.collection(SETTINGS.MONGO_DB.USER_COLLECTION_NAME)
     commentsCollection = db.collection(SETTINGS.MONGO_DB.COMMENT_COLLECTION_NAME)
-    expiredTokensCollection = db.collection(SETTINGS.MONGO_DB.COMMENT_COLLECTION_NAME)
+    authSessionsCollection = db.collection(SETTINGS.MONGO_DB.AUTH_SESSION_COLLECTION_NAME)
 
     try {
         
