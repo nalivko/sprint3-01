@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-import { authService } from "../services/authService"
 import { jwtService } from "../../../application/jwtService"
 import { authRepository } from "../repositories/auth-repo"
 

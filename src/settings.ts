@@ -22,7 +22,8 @@ export const SETTINGS = {
         POST_COLLECTION_NAME: "posts",
         USER_COLLECTION_NAME: "users",
         COMMENT_COLLECTION_NAME: "comments",
-        AUTH_SESSION_COLLECTION_NAME: "authSessions"
+        AUTH_SESSION_COLLECTION_NAME: "authSessions",
+        API_REQUESTS_COLLECTION_NAME: "apiRequests",
     },
     AC_SECRET: 'secretkey',
     REFRESH_SECRET: 'refreshsecretkey',

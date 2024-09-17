@@ -1,7 +1,6 @@
-import { Request, Response } from "express"
-import { authService } from "../services/authService";
-import { securityRepository } from "../../security/repositories/securityRepository";
+import { Request, Response } from "express";
 import { jwtService } from "../../../application/jwtService";
+import { securityRepository } from "../../security/repositories/securityRepository";
 
 export const logoutController = async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken
@@ -10,7 +9,7 @@ export const logoutController = async (req: Request, res: Response) => {
         res.status(401).send()
         return
     }
-    if(!jwtService.verifyRefreshToken(refreshToken)) {
+    if (!jwtService.verifyRefreshToken(refreshToken)) {
         res.status(401).send()
         return
     }

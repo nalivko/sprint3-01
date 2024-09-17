@@ -8,12 +8,14 @@ import { testingRouter } from "./features/testing";
 import { authRouter } from "./features/auth";
 import { securityRouter } from "./features/security";
 import { commentsRouter } from "./features/comments";
+import { apiRequestsMiddleware } from "./global-middlewares/apiRequestsMiddleware";
 import cookieParser from "cookie-parser";
 
 export const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
+app.use(apiRequestsMiddleware)
 app.set('trust proxy', true)
 
 app.get('/', (req, res) => {
