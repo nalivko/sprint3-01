@@ -36,8 +36,10 @@ export const refreshTokensController = async (req: Request, res: Response) => {
     
     const newAccessToken = await jwtService.createAccessToken(userId)
 
-    const newRefreshToken = await jwtService.createRefreshToken(userId, 'deviceId')
+    const newRefreshToken = await jwtService.createRefreshToken(userId, deviceId)
     const verifiedNewRefreshToken = jwtService.verifyRefreshToken(newRefreshToken)
+    console.log(verifiedNewRefreshToken);
+    
     await authRepository.updateUserSession(deviceId, new Date(verifiedNewRefreshToken!.iat! * 1000).toISOString())
     
     res

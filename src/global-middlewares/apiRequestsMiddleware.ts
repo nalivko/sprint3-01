@@ -16,15 +16,14 @@ export const apiRequestsMiddleware = async (req: Request<{}, {}, {}>, res: Respo
     const request: ApiRequestDbType = {
         ip: req.ip!,
         URL: req.originalUrl,
-        date: new Date()
+        date: now
     }
 
-    console.log(now, tenSecondsAgo);
-
     await apiRequestsCollection.insertOne(request)
+
     const countRequests = await apiRequestsCollection.countDocuments({
         ip: ip,
-        URL: req.originalUrl,
+        URL: URL,
         date: {
             $gt: tenSecondsAgo
         }
@@ -34,8 +33,6 @@ export const apiRequestsMiddleware = async (req: Request<{}, {}, {}>, res: Respo
         res.send(429)
         return
     }
-    console.log('count', countRequests);
-    
 
     next()
 }
