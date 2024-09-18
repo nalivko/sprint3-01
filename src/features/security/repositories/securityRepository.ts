@@ -6,9 +6,7 @@ export const securityRepository = {
         return await authSessionsCollection.findOne({deviceId: id})
     },
 
-    async deleteDeviceById(id: string): Promise<boolean> {
-        console.log('id', id);
-        
+    async deleteDeviceById(id: string): Promise<boolean> {        
         const result = await authSessionsCollection.deleteOne({deviceId: id})
 
         return result.deletedCount === 1
