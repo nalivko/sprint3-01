@@ -21,8 +21,6 @@ export const securityRepository = {
                 deviceId: {$nin: [deviceId]}
             }
         )
-
-        console.log(result);
         
         return result.deletedCount >= 1
     }
