@@ -4,9 +4,9 @@ import { authRepository } from "../repositories/auth-repo"
 
 export const refreshTokensController = async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken
-    const deviceId = req.cookies.deviceId
+    // const deviceId = req.cookies.deviceId
 
-    if (!refreshToken || !deviceId) {
+    if (!refreshToken) {
         res.status(401).send()
         return
     }
@@ -16,6 +16,7 @@ export const refreshTokensController = async (req: Request, res: Response) => {
         res.status(401).send()
         return
     }
+    const deviceId = verifiedToken.deviceId
     
     const iat = verifiedToken!.iat
     if (!iat) {
