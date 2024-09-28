@@ -15,10 +15,10 @@ export const authRepository = {
         return userSession ? true : false
     },
 
-    async updateUserSession(deviceId: string, iat: string): Promise<boolean> {
+    async updateUserSession(deviceId: string, iat: string, exp: string): Promise<boolean> {
         let result = await authSessionsCollection.updateOne(
             {deviceId},
-            {$set: {iat}}
+            {$set: {iat, exp}}
         )
 
         return result.matchedCount === 1

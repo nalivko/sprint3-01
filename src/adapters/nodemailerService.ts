@@ -19,7 +19,7 @@ export const nodemailerService = {
         });
         // vjgy bcki zggj yntz 
 
-        console.log("Info: ", info);
+        // console.log("Info: ", info);
 
         return info
     }

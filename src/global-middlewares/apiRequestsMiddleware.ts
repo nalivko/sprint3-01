@@ -6,7 +6,7 @@ import { subSeconds } from 'date-fns';
 
 export const apiRequestsMiddleware = async (req: Request<{}, {}, {}>, res: Response, next: NextFunction) => {
 
-    console.log('original', req.originalUrl);
+    // console.log('original', req.originalUrl);
 
     const URL = req.originalUrl
     const ip = req.ip!

@@ -4,7 +4,6 @@ import { loginInputType, loginSuccessType } from "../types/authTypes"
 import { jwtService } from "../../../application/jwtService"
 import { randomUUID } from "crypto"
 import { authRepository } from "../repositories/auth-repo"
-import fs from "fs"
 
 export const loginController = async (req: Request<{}, {}, loginInputType>, res: Response/*<loginSuccessType>*/) => {
     const password = req.body.password;
@@ -12,15 +11,7 @@ export const loginController = async (req: Request<{}, {}, loginInputType>, res:
     const userId = await authService.checkCredentials(login, password);
 
     if (!userId) {
-        fs.writeFile('test.txt', login + ' ' + password, err => {
-            if (err) {
-                console.error(err);
-            } else {
-                // file written successfully
-            }
-        });
         res.sendStatus(401);
-
         return;
     }
 
@@ -31,14 +22,8 @@ export const loginController = async (req: Request<{}, {}, loginInputType>, res:
     const refreshToken = await jwtService.createRefreshToken(userId, deviceId)
 
     const verifiedRefreshToken = jwtService.verifyRefreshToken(refreshToken)
+
     if (!verifiedRefreshToken) {
-        fs.writeFile('test.txt', 'refresh token', err => {
-            if (err) {
-                console.error(err);
-            } else {
-                // file written successfully
-            }
-        });
         res.sendStatus(401)
         return
     }
